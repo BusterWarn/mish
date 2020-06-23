@@ -8,10 +8,10 @@
 * Final build: 2018-10-09
 */
 
-#ifndef SIGHANT
-#define SIGHANT
-
-typedef void Sigfunc(int);
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include "sighant.h"
 
 /*
 * description: Signal function that handles a signal with sigaction().
@@ -19,6 +19,20 @@ typedef void Sigfunc(int);
 * param[in]: Sigfunc - Function pointer to a Signal handler function. Will be
 * sa_handler for sigaction struct.
 */
-void signalHandler(int signo, Sigfunc *func);
+void signalHandler (int signo, Sigfunc *sigFunc) {
 
-#endif //SIGHANT
+	struct sigaction act;
+	act.sa_handler = sigFunc;
+	act.sa_flags |= SA_RESTART;
+
+	if (sigemptyset(&act.sa_mask) < 0) {
+
+		perror("sigemptyset()");
+		exit(1);
+	}
+	if (sigaction(signo, &act, NULL) < 0) {
+
+		perror("sicacton()");
+		exit(1);
+	}
+}

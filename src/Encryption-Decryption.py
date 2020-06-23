@@ -62,7 +62,7 @@ def allfiles():
  
         return allFiles
  
-print ""      
+print ""
 choice = raw_input("Do you want to L - List the Files, E - Encrypt or D - Decrypt? ==")
 print ""
 password = raw_input("Please enter the `Password/Key` to be used: ")
